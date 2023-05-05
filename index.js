@@ -22,6 +22,8 @@ app.get("/", (req, res) => {
 app.post("/webhook", function(req, res) {
   res.send("HTTP POST request sent to the webhook URL!")
 
+  if (req.body.events[0].type === "message") {
+
   // 応答トークンを受け取る
   const dataString = JSON.stringify({
     replyToken: req.body.events[0].replyToken,
@@ -36,7 +38,7 @@ app.post("/webhook", function(req, res) {
       }
     ]
   })
-  
+
   // ユーザの返信をpostするためのリクエストヘッダの作成
   const headers = {
     "Content-Type": "application/json",
@@ -56,6 +58,7 @@ app.post("/webhook", function(req, res) {
     res.on("data", (d) => {
       process.stdout.write(d)
     })
+  })
 
     // リクエスト送信時のエラーをキャッチ
     request.on("error", (err) => {
@@ -65,9 +68,7 @@ app.post("/webhook", function(req, res) {
     // 定義したリクエストの送信
     request.write(dataString)
     request.end()
-  })
-
-
+  }
 })
 
 app.listen(PORT, () => {

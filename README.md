@@ -1,6 +1,6 @@
 # messaging-api
 
-外部公開するために
+## 外部公開する
 
 - ngrokのインストール
 ```
@@ -16,3 +16,8 @@ ngrok authtoken <your_auth_token>
 ```
 ngrok http 3030
 ```
+## その他
+- 公式アカウント
+https://www.linebiz.com/jp/login/
+
+- Devコンソール

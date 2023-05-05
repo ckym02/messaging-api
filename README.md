@@ -29,6 +29,9 @@ https://www.linebiz.com/jp/login/
 ```
 npm run start
 ```
+- webhookURLの変更
+http://127.0.0.1:4040/status
+
 - ngrokの起動
 ```
 ngrok http 3030

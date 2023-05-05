@@ -71,6 +71,53 @@ app.post("/webhook", function(req, res) {
   }
 })
 
+app.get("/push-message", function(req, res) {
+
+  const dataString = JSON.stringify({
+    to: line_user_id,
+    messages: [
+      {
+        "type": "text",
+        "text": "プッシュメッセージ送信しました"
+      },
+      {
+        "type": "text",
+        "text": "元気ですか？"
+      }
+    ]
+  })
+
+  // postするためのリクエストヘッダの作成
+  const headers = {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer " + TOKEN
+  }
+  
+  // node.jsの仕様（エンドポイントのホスト名とパスなどのオプションを設定）
+  const webhookOptions = {
+    "hostname": "api.line.me",
+    "path": "/v2/bot/message/push",
+    "method": "POST",
+    "headers": headers,
+    "body": dataString
+  }
+
+  const request = https.request(webhookOptions, (res) => {
+    res.on("data", (d) => {
+      process.stdout.write(d)
+    })
+  })
+
+  // リクエスト送信時のエラーをキャッチ
+  request.on("error", (err) => {
+    console.error(err)
+  })
+
+  // 定義したリクエストの送信
+  request.write(dataString)
+  request.end()
+})
+
 app.listen(PORT, () => {
   console.log(`Example app listening at http://localhost:${PORT}`)
 })
